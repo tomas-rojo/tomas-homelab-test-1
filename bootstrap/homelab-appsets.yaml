@@ -11,8 +11,8 @@ spec:
         directories:
           - path: apps/*
         files:
-        - path: apps/*/kustomization.yaml
-          regexp: 'namespace:\s*(?P<namespace>[a-zA-Z0-9-]+)'
+          - path: apps/*/kustomization.yaml
+            regexp: 'namespace:\s*(?P<namespace>[a-zA-Z0-9-]+)'
   template:
     metadata:
       name: '{{path.basename}}'
