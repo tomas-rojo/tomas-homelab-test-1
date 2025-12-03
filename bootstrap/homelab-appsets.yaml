@@ -13,9 +13,6 @@ spec:
   template:
     metadata:
       name: '{{path.basename}}'
-      labels:
-        app.kubernetes.io/managed-by: argocd
-        homelab.cerqlar.com/app: '{{path.basename}}'
     spec:
       project: homelab
 
