@@ -1,1 +1,7 @@
-# TODO
+ingressRoute:
+  dashboard:
+    enabled: true
+    entryPoints:
+      - web
+service:
+  type: ClusterIP
