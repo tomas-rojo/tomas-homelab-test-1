@@ -10,7 +10,7 @@ spec:
   source:
     repoURL: https://github.com/tomas-rojo/homelab-gitops.git
     targetRevision: HEAD
-    path: ../appsets
+    path: appsets
     directory:
       recurse: true
   destination:
