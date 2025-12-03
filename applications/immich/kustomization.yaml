@@ -7,5 +7,4 @@ resources:
   - pvc.yaml
   - pg-secret.yaml
   - pg-cluster.yaml
-
-valuesFile: values.yaml
+  - values.yaml
