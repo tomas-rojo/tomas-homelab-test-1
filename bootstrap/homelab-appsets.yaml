@@ -10,6 +10,9 @@ spec:
         revision: HEAD
         directories:
           - path: apps/*
+        files:
+        - path: apps/*/kustomization.yaml
+          regexp: 'namespace:\s*(?P<namespace>[a-zA-Z0-9-]+)'
   template:
     metadata:
       name: '{{path.basename}}'
@@ -18,7 +21,7 @@ spec:
 
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{path.basename}}'
+        namespace: '{{namespace}}'
 
       source:
         repoURL: https://github.com/tomas-rojo/tomas-homelab-test-1.git

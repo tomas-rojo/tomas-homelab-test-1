@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: cnpg-system
 
 helmCharts:
-  - name: cnpg
+  - name: cloudnative-pg
     repo: "https://cloudnative-pg.github.io/charts"
     version: 0.26.0
     releaseName: cnpg

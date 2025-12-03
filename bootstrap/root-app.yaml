@@ -1,32 +1,32 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: Application
-# metadata:
-#   name: root-app
-#   namespace: argocd
-#   finalizers:
-#     - resources-finalizer.argocd.argoproj.io
-# spec:
-#   project: default
-#   source:
-#     repoURL: https://github.com/tomas-rojo/tomas-homelab-test-1.git
-#     targetRevision: HEAD
-#     path: bootstrap
-#     directory:
-#       recurse: true
-#       include: 'homelab-appsets.yaml'
-#   destination:
-#     server: https://kubernetes.default.svc
-#     namespace: argocd
-#   syncPolicy:
-#     automated:
-#       prune: true
-#       selfHeal: true
-#     syncOptions:
-#       - CreateNamespace=true
-#       - Replace=true
-#     retry:
-#       limit: 2
-#       backoff:
-#         duration: 5s
-#         factor: 2
-#         maxDuration: 3m0s
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root-app
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/tomas-rojo/tomas-homelab-test-1.git
+    targetRevision: HEAD
+    path: bootstrap
+    directory:
+      recurse: true
+      include: 'homelab-appsets.yaml'
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - Replace=true
+    retry:
+      limit: 2
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
