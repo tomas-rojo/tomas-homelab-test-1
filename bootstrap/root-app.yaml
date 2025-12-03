@@ -3,16 +3,12 @@ kind: Application
 metadata:
   name: root-app
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: https://github.com/tomas-rojo/homelab-gitops.git
-    targetRevision: HEAD  # or 'main' depending on your default branch
+    repoURL: https://github.com/tomas-rojo/tomas-homelab-test-1.git
+    targetRevision: HEAD
     path: appsets
-    directory:
-      recurse: true
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
@@ -20,3 +16,12 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - Replace=true
+    retry:
+      limit: 2
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
