@@ -30,7 +30,7 @@ immich:
     enabled: false
   persistence:
     library:
-      existingClaim: immich-library-pvc
+      existingClaim: immich-data-pvc
   configuration: {}
   
 # Dependencies
