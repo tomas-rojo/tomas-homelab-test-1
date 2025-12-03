@@ -1,0 +1,38 @@
+---
+config:
+  theme: base
+---
+flowchart LR
+    subgraph user_device["User Device 
+    (Laptop / Phone)"]
+        browser["Browser / App"]
+        twingate_client["Twingate Client"]
+    end
+    subgraph twingate_cloud["Twingate Cloud"]
+        twingate_controller["Twingate Controller"]
+        twingate_relay["Twingate Relay"]
+    end
+    subgraph homelab["Homelab Network"]
+        twingate_connector["Twingate Connector"]
+
+        subgraph services["Internal Services 
+        (behind Traefik)"]
+            envoy["Traefik 
+            (API Gateway)"]
+
+            immich["Immich<br/>immich.my-homelab.com"]
+            pihole["Pi-hole"]
+            more_apps["Other self-hosted apps"]
+        end
+    end
+    browser -->|"HTTPS to immich.my-homelab.com<br/>(via VPN IP)"| twingate_client
+
+    twingate_client <-->|"Auth & policies"| twingate_controller
+    twingate_client <-->|"Encrypted tunnel"| twingate_relay
+    twingate_relay <-->|"Encrypted tunnel"| twingate_connector
+
+    twingate_connector -->|"L4 routing to cluster / LAN"| envoy
+
+    envoy --> immich
+    envoy --> pihole
+    envoy --> more_apps
