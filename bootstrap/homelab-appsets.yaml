@@ -10,9 +10,11 @@ spec:
         revision: HEAD
         directories:
           - path: apps/*
+    - git:
+        repoURL: https://github.com/tomas-rojo/homelab-gitops.git
+        revision: HEAD
         files:
           - path: apps/*/kustomization.yaml
-            regexp: 'namespace:\s*(?P<namespace>[a-zA-Z0-9-]+)'
   template:
     metadata:
       name: '{{path.basename}}'

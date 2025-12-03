@@ -1,0 +1,70 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: applications
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - list:
+        elements:
+          # Helm-based applications
+          # - name: nextcloud
+          #   namespace: nextcloud
+          #   type: helm
+          #   chart: nextcloud
+          #   repoURL: https://nextcloud.github.io/helm
+          #   version: 4.5.4
+            
+          - name: immich
+            namespace: immich
+            type: kustomize
+            
+  template:
+    metadata:
+      name: '{{.name}}'
+      namespace: argocd
+      annotations:
+      labels:
+        app-category: applications
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: applications
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{.namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+        retry:
+          limit: 3
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m
+  templatePatch: |
+    {{- if eq .type "helm"}}
+    spec:
+      sources:
+        - repoURL: '{{.repoURL}}'
+          chart: '{{.chart}}'
+          targetRevision: '{{.version}}'
+          helm:
+            releaseName: '{{.name}}'
+            valueFiles:
+              - $values/applications/{{.name}}/values.yaml
+        - repoURL: https://github.com/tomas-rojo/homelab-gitops.git
+          targetRevision: HEAD
+          ref: values
+    {{- else}}
+    spec:
+      source:
+        repoURL: https://github.com/tomas-rojo/homelab-gitops.git
+        targetRevision: HEAD
+        path: applications/{{.name}}
+    {{- end}}

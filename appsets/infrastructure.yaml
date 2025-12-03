@@ -1,0 +1,61 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: infrastructure
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - list:
+        elements:
+          - name: cnpg
+            namespace: cnpg-system
+            chart: cloudnative-pg
+            repoURL: https://cloudnative-pg.github.io/charts
+            version: 0.26.0
+            
+          - name: sealed-secrets
+            namespace: kube-system
+            chart: sealed-secrets
+            repoURL: https://bitnami-labs.github.io/sealed-secrets
+            version: 2.15.0
+            
+  template:
+    metadata:
+      name: '{{.name}}'
+      namespace: argocd
+      labels:
+        app-category: infrastructure
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: infrastructure
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{.namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+        retry:
+          limit: 3
+          backoff:
+            duration: 5s
+            factor: 2
+            maxDuration: 3m
+  templatePatch: |
+    spec:
+      sources:
+        - repoURL: '{{.repoURL}}'
+          chart: '{{.chart}}'
+          targetRevision: '{{.version}}'
+          helm:
+            releaseName: '{{.name}}'
+            valueFiles:
+              - $values/infrastructure/{{.name}}/values.yaml
+        - repoURL: https://github.com/tomas-rojo/homelab-gitops.git
+          targetRevision: HEAD
+          ref: values
