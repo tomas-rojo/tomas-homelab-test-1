@@ -20,7 +20,13 @@ spec:
             chart: sealed-secrets
             repoURL: https://bitnami-labs.github.io/sealed-secrets
             version: 2.15.0
-            
+
+          - name: traefik
+            namespace: traefik
+            chart: traefik
+            repoURL: https://traefik.github.io/charts
+            version: 37.2.0
+
   template:
     metadata:
       name: '{{.name}}'
