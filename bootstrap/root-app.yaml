@@ -13,7 +13,7 @@ spec:
     path: bootstrap
     directory:
       recurse: true
-      include: ['homelab-appsets.yaml']
+      include: 'homelab-appsets.yaml'
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
