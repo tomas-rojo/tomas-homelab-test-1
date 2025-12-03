@@ -3,12 +3,17 @@ kind: Application
 metadata:
   name: root-app
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: https://github.com/my-org/tomas-homelab.git
+    repoURL: https://github.com/tomas-rojo/tomas-homelab-test-1.git
     targetRevision: HEAD
-    path: # what should I have here?
+    path: bootstrap
+    directory:
+      recurse: true
+      include: ['homelab-appsets.yaml']
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
