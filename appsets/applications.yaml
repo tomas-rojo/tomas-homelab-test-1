@@ -26,8 +26,6 @@ spec:
       name: '{{.name}}'
       namespace: argocd
       annotations:
-      labels:
-        app-category: applications
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
@@ -58,13 +56,13 @@ spec:
             releaseName: '{{.name}}'
             valueFiles:
               - $values/applications/{{.name}}/values.yaml
-        - repoURL: https://github.com/tomas-rojo/homelab-gitops.git
+        - repoURL: https://github.com/tomas-rojo/tomas-homelab-test-1.git
           targetRevision: HEAD
           ref: values
     {{- else}}
     spec:
       source:
-        repoURL: https://github.com/tomas-rojo/homelab-gitops.git
+        repoURL: https://github.com/tomas-rojo/tomas-homelab-test-1.git
         targetRevision: HEAD
         path: applications/{{.name}}
     {{- end}}
