@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/tomas-rojo/homelab-gitops.git
-    targetRevision: HEAD
+    targetRevision: HEAD  # or 'main' depending on your default branch
     path: appsets
     directory:
       recurse: true
