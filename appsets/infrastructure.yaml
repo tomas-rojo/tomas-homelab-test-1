@@ -5,27 +5,22 @@ metadata:
   namespace: argocd
 spec:
   goTemplate: true
-  goTemplateOptions: ["missingkey=error"]
   generators:
     - list:
         elements:
-          - name: cnpg
-            namespace: cnpg-system
-            chart: cloudnative-pg
-            repoURL: https://cloudnative-pg.github.io/charts
-            version: 0.26.0
+          # - name: cnpg
+          #   namespace: cnpg-system
+          #   chart: cloudnative-pg
+          #   repoURL: https://cloudnative-pg.github.io/charts
+          #   version: 0.26.0
             
-          - name: sealed-secrets
-            namespace: kube-system
-            chart: sealed-secrets
-            repoURL: https://bitnami-labs.github.io/sealed-secrets
-            version: 2.15.0
+          # - name: sealed-secrets
+          #   namespace: kube-system
+          #   chart: sealed-secrets
+          #   repoURL: https://bitnami-labs.github.io/sealed-secrets
+          #   version: 2.15.0
 
           - name: traefik
-            namespace: traefik
-            chart: traefik
-            repoURL: https://traefik.github.io/charts
-            version: 37.2.0
 
   template:
     metadata:
@@ -37,7 +32,6 @@ spec:
       project: infrastructure
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{.namespace}}'
       syncPolicy:
         automated:
           prune: true
@@ -51,16 +45,7 @@ spec:
             duration: 5s
             factor: 2
             maxDuration: 3m
-  templatePatch: |
-    spec:
-      sources:
-        - repoURL: '{{.repoURL}}'
-          chart: '{{.chart}}'
-          targetRevision: '{{.version}}'
-          helm:
-            releaseName: '{{.name}}'
-            valueFiles:
-              - $values/infrastructure/{{.name}}/values.yaml
-        - repoURL: https://github.com/tomas-rojo/tomas-homelab-test-1.git
-          targetRevision: HEAD
-          ref: values
+      source:
+        repoURL: https://github.com/tomas-rojo/tomas-homelab-test-1.git
+        targetRevision: HEAD
+        path: infrastructure/{{.name}}

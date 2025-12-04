@@ -8,19 +8,19 @@ spec:
   generators:
     - list:
         elements:
-          # Helm-based applications
-          - name: pihole
-            namespace: pihole
-            type: helm
-            chart: pihole
-            repoURL: https://mojo2600.github.io/pihole-kubernetes/
-            version: 2.34.0
+          # # Helm-based applications
+          # - name: pihole
+          #   namespace: pihole
+          #   type: helm
+          #   chart: pihole
+          #   repoURL: https://mojo2600.github.io/pihole-kubernetes/
+          #   version: 2.34.0
           
-          # Kustomize-based applications
-          - name: immich
-            namespace: immich
-            url: "https://google.com"
-            type: kustomize
+          # # Kustomize-based applications
+          # - name: immich
+          #   namespace: immich
+          #   url: "https://google.com"
+          #   type: kustomize
             
   template:
     metadata:
