@@ -1,3 +1,7 @@
+# install CRDs
+crds:
+  enabled: true
+
 ingressRoute:
   dashboard:
     enabled: true
