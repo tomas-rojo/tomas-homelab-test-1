@@ -21,6 +21,7 @@ spec:
           #   version: 2.15.0
 
           - name: traefik
+            namespace: traefik
 
   template:
     metadata:
@@ -32,6 +33,7 @@ spec:
       project: infrastructure
       destination:
         server: https://kubernetes.default.svc
+        namespace: '{{.namespace}}'
       syncPolicy:
         automated:
           prune: true
