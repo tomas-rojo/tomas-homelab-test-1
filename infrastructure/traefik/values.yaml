@@ -1,11 +1,7 @@
-# install CRDs
-crds:
-  enabled: true
-
-ingressRoute:
-  dashboard:
-    enabled: true
-    entryPoints:
-      - web
-service:
-  type: ClusterIP
+# ingressRoute:
+#   dashboard:
+#     enabled: true
+#     entryPoints:
+#       - web
+# service:
+#   type: ClusterIP
