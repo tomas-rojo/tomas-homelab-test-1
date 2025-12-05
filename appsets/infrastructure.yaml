@@ -10,10 +10,7 @@ spec:
         elements:
           # - name: cnpg
           #   namespace: cnpg-system
-          #   chart: cloudnative-pg
-          #   repoURL: https://cloudnative-pg.github.io/charts
-          #   version: 0.26.0
-            
+
           # - name: sealed-secrets
           #   namespace: kube-system
           #   chart: sealed-secrets
@@ -40,9 +37,6 @@ spec:
         automated:
           prune: true
           selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
-          - ServerSideApply=true
         retry:
           limit: 3
           backoff:
@@ -53,3 +47,12 @@ spec:
         repoURL: https://github.com/tomas-rojo/tomas-homelab-test-1.git
         targetRevision: HEAD
         path: infrastructure/{{.name}}
+  templatePatch: |
+    spec:
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+          {{- if eq .name "cnpg"}}
+          - ServerSideApply=true
+          {{- end }}
+  
