@@ -5,3 +5,8 @@
 #       - web
 # service:
 #   type: ClusterIP
+
+service:
+  type: LoadBalancer
+  annotations:
+    metallb.universe.tf/address-pool: default
