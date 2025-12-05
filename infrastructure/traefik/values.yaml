@@ -1,3 +1,20 @@
+providers:
+  kubernetesIngress:
+    publishedService:
+      enabled: true     #if you want to use with kubernetes ingress, set it to true.
+  kubernetesGateway:
+    enabled: true
+
+gateway:
+  namespacePolicy: All
+
+ingressRoute:
+  dashboard:
+    enabled: true
+    entryPoints:
+    - web
+    - websecure
+
 service:
   enabled: true
   spec:
@@ -13,3 +30,16 @@ service:
     websecure:
       port: 443
       targetPort: 443
+  
+dashboard:
+  enabled: true
+  ingress:
+    enabled: true
+    path: /dashboard/
+    pathType: Prefix
+    annotations:
+      kubernetes.io/ingress.class: traefik
+    hosts:
+    - host: "*" #traefik.example.com  # Change to your desired host
+      paths:
+      - /
