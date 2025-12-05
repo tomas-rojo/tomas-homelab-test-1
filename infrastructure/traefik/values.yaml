@@ -8,6 +8,19 @@ providers:
 gateway:
   namespacePolicy: All
 
+
+# Add this section to enable the API
+additionalArguments:
+  - "--api.dashboard=true"
+  - "--api.insecure=true"
+
+# Add ports section to expose the API
+ports:
+  traefik:
+    port: 9000
+    expose: true
+    exposedPort: 9000
+
 ingressRoute:
   dashboard:
     enabled: true
