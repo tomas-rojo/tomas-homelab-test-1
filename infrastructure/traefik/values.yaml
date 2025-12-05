@@ -1,7 +1,7 @@
 providers:
   kubernetesIngress:
     publishedService:
-      enabled: true     #if you want to use with kubernetes ingress, set it to true.
+      enabled: false     #if you want to use with kubernetes ingress, set it to true.
   kubernetesGateway:
     enabled: true
 
