@@ -17,22 +17,22 @@ flowchart LR
 
         subgraph services["Internal Services 
         (behind Traefik)"]
-            envoy["Traefik 
+            traefik["Traefik 
             (API Gateway)"]
 
-            immich["Immich<br/>immich.my-homelab.com"]
+            immich["Immich"]
             pihole["Pi-hole"]
             more_apps["Other self-hosted apps"]
         end
     end
-    browser -->|"HTTPS to immich.my-homelab.com<br/>(via VPN IP)"| twingate_client
+    browser -->|"HTTPS to app.tomasrojo.cloud<br/>(via VPN IP)"| twingate_client
 
     twingate_client <-->|"Auth & policies"| twingate_controller
     twingate_client <-->|"Encrypted tunnel"| twingate_relay
     twingate_relay <-->|"Encrypted tunnel"| twingate_connector
 
-    twingate_connector -->|"L4 routing to cluster / LAN"| envoy
+    twingate_connector -->|"L4 routing to cluster / LAN"| traefik
 
-    envoy --> immich
-    envoy --> pihole
-    envoy --> more_apps
+    traefik ---> immich
+    traefik ---> pihole
+    traefik ---> more_apps
