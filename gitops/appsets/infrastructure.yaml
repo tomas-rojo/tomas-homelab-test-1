@@ -11,11 +11,8 @@ spec:
           # - name: cnpg
           #   namespace: cnpg-system
 
-          # - name: sealed-secrets
-          #   namespace: kube-system
-          #   chart: sealed-secrets
-          #   repoURL: https://bitnami-labs.github.io/sealed-secrets
-          #   version: 2.15.0
+          - name: sealed-secrets
+            namespace: kube-system
 
           # - name: traefik
           #   namespace: traefik
