@@ -1,27 +1,27 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: infrastructure
+  name: applications
   namespace: argocd
 spec:
   goTemplate: true
   generators:
     - list:
         elements:
-          # - name: cnpg
-          #   namespace: cnpg-system
-
-          # - name: sealed-secrets
-          #   namespace: kube-system
-          #   chart: sealed-secrets
-          #   repoURL: https://bitnami-labs.github.io/sealed-secrets
-          #   version: 2.15.0
-
-          - name: traefik
-            namespace: traefik
-
-          - name: metallb
-            namespace: metallb-system
+          # # Helm-based applications
+          - name: pihole
+            namespace: pihole
+          #   type: helm
+          #   chart: pihole
+          #   repoURL: https://mojo2600.github.io/pihole-kubernetes/
+          #   version: 2.34.0
+          
+          # # Kustomize-based applications
+          # - name: immich
+          #   namespace: immich
+          #   url: "https://google.com"
+          #   type: kustomize
+            
   template:
     metadata:
       name: '{{.name}}'
@@ -29,7 +29,7 @@ spec:
       finalizers:
         - resources-finalizer.argocd.argoproj.io
     spec:
-      project: infrastructure
+      project: applications
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{.namespace}}'
@@ -37,6 +37,8 @@ spec:
         automated:
           prune: true
           selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
         retry:
           limit: 3
           backoff:
@@ -46,13 +48,4 @@ spec:
       source:
         repoURL: https://github.com/tomas-rojo/tomas-homelab-test-1.git
         targetRevision: HEAD
-        path: infrastructure/{{.name}}
-  templatePatch: |
-    spec:
-      syncPolicy:
-        syncOptions:
-          - CreateNamespace=true
-          {{- if eq .name "cnpg"}}
-          - ServerSideApply=true
-          {{- end }}
-  
+        path: gitops/applications/{{.name}}

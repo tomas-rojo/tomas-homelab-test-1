@@ -1,0 +1,48 @@
+resource "kubernetes_manifest" "root_app" {
+  manifest = {
+    apiVersion = "argoproj.io/v1alpha1"
+    kind       = "Application"
+
+    metadata = {
+      name      = "root-app"
+      namespace = "argocd"
+    }
+
+    spec = {
+      project = "default"
+
+      source = {
+        repoURL        = "https://github.com/tomas-rojo/tomas-homelab-test-1.git"
+        targetRevision = "HEAD"
+        path           = "gitops/appsets"
+      }
+
+      destination = {
+        server    = "https://kubernetes.default.svc"
+        namespace = "argocd"
+      }
+
+      syncPolicy = {
+        automated = {
+          prune    = true
+          selfHeal = true
+        }
+
+        syncOptions = [
+          "CreateNamespace=true",
+          "Replace=true",
+        ]
+
+        retry = {
+          limit = 2
+
+          backoff = {
+            duration    = "5s"
+            factor      = 2
+            maxDuration = "3m0s"
+          }
+        }
+      }
+    }
+  }
+}

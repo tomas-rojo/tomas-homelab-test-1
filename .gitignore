@@ -1,1 +1,5 @@
 kubeconfig-docker
+
+# Terraform
+.terraform/
+*.tfstate.*
