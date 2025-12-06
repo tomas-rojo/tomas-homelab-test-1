@@ -8,8 +8,8 @@ spec:
   generators:
     - list:
         elements:
-          # - name: cnpg
-          #   namespace: cnpg-system
+          - name: cnpg
+            namespace: cnpg-system
 
           - name: sealed-secrets
             namespace: kube-system
