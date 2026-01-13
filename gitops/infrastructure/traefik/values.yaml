@@ -18,7 +18,8 @@ additionalArguments:
 ports:
   traefik:
     port: 9000
-    expose: true
+    expose:
+      enabled: true
     exposedPort: 9000
 
 ingressRoute:
