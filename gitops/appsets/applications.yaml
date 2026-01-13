@@ -9,8 +9,8 @@ spec:
     - list:
         elements:
           # # Helm-based applications
-          - name: pihole
-            namespace: pihole
+          # - name: pihole
+          #   namespace: pihole
           #   type: helm
           #   chart: pihole
           #   repoURL: https://mojo2600.github.io/pihole-kubernetes/

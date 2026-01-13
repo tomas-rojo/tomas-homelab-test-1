@@ -8,14 +8,14 @@ spec:
   generators:
     - list:
         elements:
-          - name: cnpg
-            namespace: cnpg-system
+          # - name: cnpg
+          #   namespace: cnpg-system
 
-          - name: sealed-secrets
-            namespace: kube-system
+          # - name: sealed-secrets
+          #   namespace: kube-system
 
-          # - name: traefik
-          #   namespace: traefik
+          - name: traefik
+            namespace: traefik
 
           # - name: metallb
           #   namespace: metallb-system
